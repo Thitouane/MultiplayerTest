@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ccv6ih2ie7ia"
+path="res://.godot/imported/debris-spoiler-a.obj-7138c07bd44f0dfc3e3b3c85869f52cc.mesh"
+
+[deps]
+
+files=["res://.godot/imported/debris-spoiler-a.obj-7138c07bd44f0dfc3e3b3c85869f52cc.mesh"]
+
+source_file="res://assets/kenney_car/Models/OBJ format/debris-spoiler-a.obj"
+dest_files=["res://.godot/imported/debris-spoiler-a.obj-7138c07bd44f0dfc3e3b3c85869f52cc.mesh", "res://.godot/imported/debris-spoiler-a.obj-7138c07bd44f0dfc3e3b3c85869f52cc.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
