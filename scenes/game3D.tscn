@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://ce1px3r0342q6"]
+
+[ext_resource type="Script" uid="uid://bvrj4eegf50tq" path="res://scenes/network/ENetManager3D.gd" id="1_mwf0l"]
+[ext_resource type="Texture2D" uid="uid://bdu3nvt8krswd" path="res://assets/kenney_prototype-textures/PNG/Dark/texture_01.png" id="2_ivnm8"]
+[ext_resource type="PackedScene" uid="uid://bfbd5aymwq31q" path="res://scenes/HUD/enet_hud.tscn" id="2_lv42j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lv42j"]
+albedo_texture = ExtResource("2_ivnm8")
+uv1_triplanar = true
+
+[node name="Game3d" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="ENetManager" type="Node" parent="."]
+script = ExtResource("1_mwf0l")
+
+[node name="ENetHUD" parent="." instance=ExtResource("2_lv42j")]
+
+[node name="BG" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(128, 1, 128)
+material = SubResource("StandardMaterial3D_lv42j")
+
+[node name="Marker3D" type="Marker3D" parent="BG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1, 0)
+
+[node name="Marker3D2" type="Marker3D" parent="BG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 1, 0)
+
+[node name="Marker3D3" type="Marker3D" parent="BG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 16)
+
+[node name="Marker3D4" type="Marker3D" parent="BG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -16)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.35358, 0)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://dxp7efrcs7xx3")
+spawn_path = NodePath("..")

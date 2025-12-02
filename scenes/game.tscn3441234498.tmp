@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmy2wyvyycodg"]
+
+[ext_resource type="Texture2D" uid="uid://bdu3nvt8krswd" path="res://assets/kenney_prototype-textures/PNG/Dark/texture_01.png" id="1_lbhrr"]
+[ext_resource type="Script" uid="uid://6wkyal8c0o16" path="res://scenes/network/ENetManager.gd" id="1_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://bfbd5aymwq31q" path="res://scenes/HUD/enet_hud.tscn" id="4_u5sy4"]
+
+[node name="Game" type="Node2D"]
+
+[node name="ENetManager" type="Node" parent="."]
+script = ExtResource("1_lnu2h")
+
+[node name="Texture01" type="Sprite2D" parent="."]
+texture = ExtResource("1_lbhrr")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://docs3eh3rwlcf")
+spawn_path = NodePath("..")
+
+[node name="ENetHUD" parent="." instance=ExtResource("4_u5sy4")]
