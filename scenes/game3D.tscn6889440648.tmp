@@ -13,8 +13,9 @@ script = ExtResource("1_mwf0l")
 
 [node name="ENetHUD" parent="HUD" instance=ExtResource("2_lv42j")]
 
-[node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://c7pxpbd31e1vt")
-spawn_path = NodePath(".")
+[node name="Levels" type="Node3D" parent="."]
 
-[node name="Hub" parent="LevelSpawner" instance=ExtResource("3_lv42j")]
+[node name="Hub" parent="Levels" instance=ExtResource("3_lv42j")]
+
+[node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Levels")

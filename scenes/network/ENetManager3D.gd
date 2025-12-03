@@ -4,14 +4,12 @@ const IP_ADDRESS: String = "localhost"
 const PORT: int = 42069
 const MAX_CLIENTS: int = 32
 
-const PLAYER = preload("res://scenes/player/vehicle3D.tscn")
+const LEVEL = "res://scenes/levels/level_01.tscn"
 
 var peer: ENetMultiplayerPeer
 
-var players: Array[Node]
-
 func _ready() -> void:
-	$"../MultiplayerSpawner".spawn_function = add_player
+	$"../LevelSpawner".spawn_function = spawn_level
 
 func start_server() -> void:
 	peer = ENetMultiplayerPeer.new()
@@ -21,30 +19,24 @@ func start_server() -> void:
 	multiplayer.peer_connected.connect(
 		func(pid): 
 			print("Peer " + str(pid) + " has joined the game !")
-			$"../MultiplayerSpawner".spawn(pid)
+			#$"../MultiplayerSpawner".spawn(multiplayer.get_unique_id())
 	)
 	
-	$"../MultiplayerSpawner".spawn(multiplayer.get_unique_id())
+	$"../LevelSpawner/Hub".queue_free()
 	
-	$"../ENetHUD".hide()
-	$"../Camera3D".current = false
+	$"../LevelSpawner".spawn(LEVEL)
+	$"../HUD/ENetHUD".hide()
+	print("Hosting Game...")
 
 func start_client() -> void:
+	$"../LevelSpawner/Hub".queue_free()
+	
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(IP_ADDRESS, PORT)
 	multiplayer.multiplayer_peer = peer
 	
-	$"../ENetHUD".hide()
-	$"../Camera3D".current = false
+	$"../HUD/ENetHUD".hide()
+	print("Joinning Game...")
 
-
-func add_player(pid):
-	var player = PLAYER.instantiate()
-	player.name = str(pid)
-	
-	print($"../BG".get_child(players.size()))
-	
-	player.global_position = $"../BG".get_child(players.size()).global_position
-	players.append(player)
-	
-	return player
+func spawn_level(data):
+	return (load(data) as PackedScene).instantiate()

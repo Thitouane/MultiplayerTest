@@ -18,7 +18,7 @@ var turn_speed = 5
 var turn_amout = 0.3
 
 func _enter_tree() -> void:
-	set_multiplayer_authority(name.to_int())
+	pass #set_multiplayer_authority(name.to_int())
 
 func _ready() -> void:
 	$SpringArm3D/Camera3D.current = is_multiplayer_authority()
