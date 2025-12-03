@@ -4,7 +4,7 @@ const IP_ADDRESS: String = "localhost"
 const PORT: int = 42069
 const MAX_CLIENTS: int = 32
 
-const PLAYER = preload("res://scenes/player/player3D.tscn")
+const PLAYER = preload("res://scenes/player/vehicle3D.tscn")
 
 var peer: ENetMultiplayerPeer
 

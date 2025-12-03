@@ -1,12 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://ce1px3r0342q6"]
+[gd_scene load_steps=12 format=3 uid="uid://ce1px3r0342q6"]
 
 [ext_resource type="Script" uid="uid://bvrj4eegf50tq" path="res://scenes/network/ENetManager3D.gd" id="1_mwf0l"]
 [ext_resource type="Texture2D" uid="uid://bdu3nvt8krswd" path="res://assets/kenney_prototype-textures/PNG/Dark/texture_01.png" id="2_ivnm8"]
 [ext_resource type="PackedScene" uid="uid://bfbd5aymwq31q" path="res://scenes/HUD/enet_hud.tscn" id="2_lv42j"]
+[ext_resource type="Texture2D" uid="uid://bhr7a6dkgvm6q" path="res://assets/kenney_prototype-textures/PNG/Purple/texture_01.png" id="4_eni38"]
+[ext_resource type="Texture2D" uid="uid://ckoo6iw6wqiq1" path="res://assets/kenney_prototype-textures/PNG/Green/texture_01.png" id="5_1v8id"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lv42j"]
 albedo_texture = ExtResource("2_ivnm8")
 uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1v8id"]
+albedo_texture = ExtResource("4_eni38")
+
+[sub_resource type="PrismMesh" id="PrismMesh_am8x2"]
+size = Vector3(1, 0.2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i2p2p"]
+albedo_texture = ExtResource("5_1v8id")
+
+[sub_resource type="PrismMesh" id="PrismMesh_aiea7"]
+size = Vector3(2, 0.4, 2)
+
+[sub_resource type="PrismMesh" id="PrismMesh_6cj1t"]
+size = Vector3(4, 0.6, 4)
 
 [node name="Game3d" type="Node3D"]
 
@@ -37,9 +54,34 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 16)
 [node name="Marker3D4" type="Marker3D" parent="BG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -16)
 
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.5, 0)
+use_collision = true
+material = SubResource("StandardMaterial3D_1v8id")
+
+[node name="CSGPrism3D" type="CSGMesh3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+use_collision = true
+mesh = SubResource("PrismMesh_am8x2")
+material = SubResource("StandardMaterial3D_i2p2p")
+
+[node name="CSGPrism3D2" type="CSGMesh3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+use_collision = true
+mesh = SubResource("PrismMesh_aiea7")
+material = SubResource("StandardMaterial3D_i2p2p")
+
+[node name="CSGPrism3D3" type="CSGMesh3D" parent="Obstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -6, 0, 0)
+use_collision = true
+mesh = SubResource("PrismMesh_6cj1t")
+material = SubResource("StandardMaterial3D_i2p2p")
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.35358, 0)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://dxp7efrcs7xx3")
+_spawnable_scenes = PackedStringArray("uid://bx0ycdwymkt73")
 spawn_path = NodePath("..")

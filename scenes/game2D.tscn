@@ -1,13 +1,64 @@
-[gd_scene load_steps=4 format=3 uid="uid://cmy2wyvyycodg"]
+[gd_scene load_steps=4 format=3 uid="uid://b5xv7s5akvo2d"]
 
-[ext_resource type="Script" uid="uid://6wkyal8c0o16" path="res://scenes/network/ENetManager2D.gd" id="1_aqxr4"]
 [ext_resource type="Texture2D" uid="uid://bdu3nvt8krswd" path="res://assets/kenney_prototype-textures/PNG/Dark/texture_01.png" id="2_cyhdg"]
 [ext_resource type="PackedScene" uid="uid://bfbd5aymwq31q" path="res://scenes/HUD/enet_hud.tscn" id="3_3cuqp"]
+
+[sub_resource type="GDScript" id="GDScript_lgtin"]
+script/source = "extends Node
+
+const IP_ADDRESS: String = \"localhost\"
+const PORT: int = 42069
+const MAX_CLIENTS: int = 32
+
+const PLAYER = preload(\"res://scenes/player/player2D.tscn\")
+
+var peer: ENetMultiplayerPeer
+
+var players: Array[Node]
+
+func _ready() -> void:
+	$\"../MultiplayerSpawner\".spawn_function = add_player
+
+func start_server() -> void:
+	peer = ENetMultiplayerPeer.new()
+	peer.create_server(PORT, MAX_CLIENTS)
+	multiplayer.multiplayer_peer = peer
+	
+	multiplayer.peer_connected.connect(
+		func(pid): 
+			print(\"Peer \" + str(pid) + \" has joined the game !\")
+			$\"../MultiplayerSpawner\".spawn(pid)
+	)
+	
+	$\"../MultiplayerSpawner\".spawn(multiplayer.get_unique_id())
+	
+	$\"../ENetHUD\".hide()
+	$\"../Camera2D\".enabled = false
+
+func start_client() -> void:
+	peer = ENetMultiplayerPeer.new()
+	peer.create_client(IP_ADDRESS, PORT)
+	multiplayer.multiplayer_peer = peer
+	
+	$\"../ENetHUD\".hide()
+	$\"../Camera2D\".enabled = false
+
+func add_player(pid):
+	var player = PLAYER.instantiate()
+	player.name = str(pid)
+	
+	print($\"../BG\".get_child(players.size()))
+	
+	player.global_position = $\"../BG\".get_child(players.size()).global_position
+	players.append(player)
+	
+	return player
+"
 
 [node name="Game" type="Node2D"]
 
 [node name="ENetManager" type="Node" parent="."]
-script = ExtResource("1_aqxr4")
+script = SubResource("GDScript_lgtin")
 
 [node name="BG" type="Sprite2D" parent="."]
 texture = ExtResource("2_cyhdg")
@@ -29,5 +80,5 @@ position = Vector2(0, 256)
 [node name="ENetHUD" parent="." instance=ExtResource("3_3cuqp")]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://docs3eh3rwlcf")
+_spawnable_scenes = PackedStringArray("res://scenes/player/player2D.tscn")
 spawn_path = NodePath("..")
